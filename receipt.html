@@ -62,6 +62,15 @@
             word-wrap: break-word;
             font-size: 10px;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 5px;
+            border: 1px solid #ddd;
+            font-size: 10px;
+        }
     </style>
     <script>
         function getQueryParams() {
@@ -76,7 +85,7 @@
         }
 
         function splitAndFormatService(service) {
-            return service.split(',').map(item => item.trim()).filter(item => item).join('<br>');
+            return service.split(',').map(item => item.trim()).filter(item => item).map(item => `<tr><td>${item}</td></tr>`).join('');
         }
 
         function getDueDate() {
@@ -90,8 +99,6 @@
             const fields = [
                 { id: 'customerNumber', label: 'Kunde Nr', value: data.customerNumber },
                 { id: 'name', label: 'AftaleNr', value: data.name },
-                { id: 'service', label: 'Service', value: splitAndFormatService(data.service) },
-                { id: 'extraProducts', label: 'Ekstra Produkter', value: splitAndFormatService(data.extraProducts) },
                 { id: 'price', label: 'Pris', value: data.price }
             ];
 
@@ -103,6 +110,19 @@
                     document.querySelector('.detail-section').appendChild(detailBox);
                 }
             });
+
+            // Add service and extra products in table format
+            if (data.service && !data.service.startsWith('Ingen')) {
+                const serviceTable = document.createElement('table');
+                serviceTable.innerHTML = `<strong>Service:</strong><br>${splitAndFormatService(data.service)}`;
+                document.querySelector('.detail-section').appendChild(serviceTable);
+            }
+
+            if (data.extraProducts && !data.extraProducts.startsWith('Ingen')) {
+                const extraProductsTable = document.createElement('table');
+                extraProductsTable.innerHTML = `<strong>Ekstra Produkter:</strong><br>${splitAndFormatService(data.extraProducts)}`;
+                document.querySelector('.detail-section').appendChild(extraProductsTable);
+            }
 
             // Add Reg Nr and Konto Nr side by side
             const regKontoContainer = document.createElement('div');
