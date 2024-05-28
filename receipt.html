@@ -34,7 +34,7 @@
         }
         .detail-section {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 5px;
         }
         .detail-box {
@@ -42,7 +42,6 @@
             border: 1px solid #e1e1e1;
             padding: 5px;
             word-wrap: break-word;
-            flex: 1 1 48%;
         }
         .footer {
             text-align: center;
@@ -57,7 +56,7 @@
             border: 1px solid #e1e1e1;
             padding: 5px;
             word-wrap: break-word;
-            flex: 1 1 45%;
+            width: 48%;
         }
     </style>
     <script>
@@ -72,14 +71,18 @@
             };
         }
 
+        function splitAndFormatService(service) {
+            return service.split(',').map(item => item.trim()).filter(item => item).join('<br>');
+        }
+
         function populateReceipt() {
             const data = getQueryParams();
             const fields = [
                 { id: 'customerNumber', label: 'Kunde Nr', value: data.customerNumber },
-                { id: 'name', label: 'Aftale Nr', value: data.name },
-                { id: 'service', label: 'Service', value: data.service },
-                { id: 'extraProducts', label: 'Ekstra Produkter', value: data.extraProducts },
-                { id: 'price', label: 'Pris', value: data.price },
+                { id: 'name', label: 'AftaleNr', value: data.name },
+                { id: 'service', label: 'Service', value: splitAndFormatService(data.service) },
+                { id: 'extraProducts', label: 'Ekstra Produkter', value: splitAndFormatService(data.extraProducts) },
+                { id: 'price', label: 'Pris', value: data.price }
             ];
 
             fields.forEach(field => {
