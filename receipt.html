@@ -48,6 +48,17 @@
             text-align: center;
             font-size: 12px;
         }
+        .reg-konto-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .reg-konto-box {
+            background-color: #f2f2f2;
+            border: 1px solid #e1e1e1;
+            padding: 5px;
+            word-wrap: break-word;
+            flex: 1 1 45%;
+        }
     </style>
     <script>
         function getQueryParams() {
@@ -55,9 +66,6 @@
             return {
                 customerNumber: params.get('customerNumber') || 'Ingen Kunde Nummer',
                 name: params.get('name') || 'Ingen Navn',
-                email: params.get('email') || 'Ingen Email',
-                phone1: params.get('phone1') || 'Ingen Telefon 1',
-                phone2: params.get('phone2') || 'Ingen Telefon 2',
                 service: params.get('service') || 'Ingen Service',
                 extraProducts: params.get('extraProducts') || 'Ingen Ekstra Produkter',
                 price: params.get('price') || 'Ingen Pris'
@@ -68,15 +76,10 @@
             const data = getQueryParams();
             const fields = [
                 { id: 'customerNumber', label: 'Kunde Nr', value: data.customerNumber },
-                { id: 'name', label: 'AftaleNr', value: data.name },
-                { id: 'email', label: 'Email', value: data.email },
-                { id: 'phone1', label: 'Telefon 1', value: data.phone1 },
-                { id: 'phone2', label: 'Telefon 2', value: data.phone2 },
+                { id: 'name', label: 'Aftale Nr', value: data.name },
                 { id: 'service', label: 'Service', value: data.service },
                 { id: 'extraProducts', label: 'Ekstra Produkter', value: data.extraProducts },
                 { id: 'price', label: 'Pris', value: data.price },
-                { id: 'regNr', label: 'Reg Nr', value: '0828' },
-                { id: 'kontoNr', label: 'Konto Nr', value: '2447509' }
             ];
 
             fields.forEach(field => {
@@ -87,6 +90,15 @@
                     document.querySelector('.detail-section').appendChild(detailBox);
                 }
             });
+
+            // Add Reg Nr and Konto Nr side by side
+            const regKontoContainer = document.createElement('div');
+            regKontoContainer.className = 'reg-konto-container';
+            regKontoContainer.innerHTML = `
+                <div class="reg-konto-box"><strong>Reg Nr:</strong> <span id="regNr">0828</span></div>
+                <div class="reg-konto-box"><strong>Konto Nr:</strong> <span id="kontoNr">2447509</span></div>
+            `;
+            document.querySelector('.detail-section').appendChild(regKontoContainer);
         }
 
         function printReceipt() {
