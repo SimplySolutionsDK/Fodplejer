@@ -57,9 +57,7 @@
                 status: params.get('status') || 'No Status',
                 service: params.get('service') || 'No Service',
                 extraProducts: params.get('extraProducts') || 'No Extra Products',
-                price: params.get('price') || 'No Price',
-                regNr: params.get('regNr') || 'No Reg Nr',
-                kontoNr: params.get('kontoNr') || 'No Konto Nr'
+                price: params.get('price') || 'No Price'
             };
         }
 
@@ -77,8 +75,8 @@
             document.getElementById('service').textContent = data.service;
             document.getElementById('extraProducts').textContent = data.extraProducts;
             document.getElementById('price').textContent = data.price;
-            document.getElementById('regNr').textContent = data.regNr;
-            document.getElementById('kontoNr').textContent = data.kontoNr;
+            document.getElementById('regNr').textContent = '0828';
+            document.getElementById('kontoNr').textContent = '2447509';
         }
 
         function printReceipt() {
@@ -136,10 +134,10 @@
             <strong>Price:</strong> <span id="price"></span>
         </div>
         <div class="detail-box">
-            <strong>Reg Nr:</strong> <span id="regNr"></span>
+            <strong>Reg Nr:</strong> <span id="regNr">0828</span>
         </div>
         <div class="detail-box">
-            <strong>Konto Nr:</strong> <span id="kontoNr"></span>
+            <strong>Konto Nr:</strong> <span id="kontoNr">2447509</span>
         </div>
         <div class="footer">
             <p>Tak for dit køb!</p>
