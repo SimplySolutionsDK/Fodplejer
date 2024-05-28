@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 10px;
+        }
+        .receipt-container {
+            width: 2in;
+            height: 4in;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .title {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .detail-box {
+            background-color: #f2f2f2;
+            border: 1px solid #e1e1e1;
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .logo img {
+            max-width: 80px;
+        }
+    </style>
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                date: params.get('date') || 'No Date',
+                startTime: params.get('startTime') || 'No Start Time',
+                endTime: params.get('endTime') || 'No End Time',
+                customerNumber: params.get('customerNumber') || 'No Customer Number',
+                name: params.get('name') || 'No Name',
+                email: params.get('email') || 'No Email',
+                phone1: params.get('phone1') || 'No Phone 1',
+                phone3: params.get('phone3') || 'No Phone 3',
+                status: params.get('status') || 'No Status',
+                service: params.get('service') || 'No Service',
+                extraProducts: params.get('extraProducts') || 'No Extra Products',
+                price: params.get('price') || 'No Price',
+                regNr: params.get('regNr') || 'No Reg Nr',
+                kontoNr: params.get('kontoNr') || 'No Konto Nr'
+            };
+        }
+
+        function populateReceipt() {
+            const data = getQueryParams();
+            document.getElementById('datoogtid').textContent = data.date;
+            document.getElementById('startTime').textContent = data.startTime;
+            document.getElementById('endTime').textContent = data.endTime;
+            document.getElementById('customerNumber').textContent = data.customerNumber;
+            document.getElementById('name').textContent = data.name;
+            document.getElementById('email').textContent = data.email;
+            document.getElementById('phone1').textContent = data.phone1;
+            document.getElementById('phone3').textContent = data.phone3;
+            document.getElementById('status').textContent = data.status;
+            document.getElementById('service').textContent = data.service;
+            document.getElementById('extraProducts').textContent = data.extraProducts;
+            document.getElementById('price').textContent = data.price;
+            document.getElementById('regNr').textContent = data.regNr;
+            document.getElementById('kontoNr').textContent = data.kontoNr;
+        }
+
+        function printReceipt() {
+            window.print();
+        }
+
+        window.onload = function() {
+            populateReceipt();
+            printReceipt();
+        };
+    </script>
+</head>
+<body>
+    <div class="receipt-container">
+        <div class="header">
+            <div class="logo">
+                <img src="path_to_logo/logo.png" alt="Byens Fodplejer Logo">
+            </div>
+            <h1 class="title">Kvittering Byens Fodplejer</h1>
+        </div>
+        <div class="detail-box">
+            <strong>Dato og Tid:</strong> <span id="datoogtid"></span>
+        </div>
+        <div class="detail-box">
+            <strong>Start Time:</strong> <span id="startTime"></span>
+        </div>
+        <div class="detail-box">
+            <strong>End Time:</strong> <span id="endTime"></span>
+        </div>
+        <div class="detail-box">
+            <strong>Kunde Nr:</strong> <span id="customerNumber"></span>
+        </div>
+        <div class="detail-box">
+            <strong>Name:</strong> <span id="name"></span>
+        </div>
+        <div class="detail-box">
+            <strong>Email:</strong> <span id="email"></span>
+        </div>
+        <div class="detail-box">
+            <strong>Phone 1:</strong> <span id="phone1"></span>
+        </div>
+        <div class="detail-box">
+            <strong>Phone 3:</strong> <span id="phone3"></span>
+        </div>
+        <div class="detail-box">
+            <strong>Status:</strong> <span id="status"></span>
+        </div>
+        <div class="detail-box">
+            <strong>Service:</strong> <span id="service"></span>
+        </div>
+        <div class="detail-box">
+            <strong>Extra Products:</strong> <span id="extraProducts"></span>
+        </div>
+        <div class="detail-box">
+            <strong>Price:</strong> <span id="price"></span>
+        </div>
+        <div class="detail-box">
+            <strong>Reg Nr:</strong> <span id="regNr"></span>
+        </div>
+        <div class="detail-box">
+            <strong>Konto Nr:</strong> <span id="kontoNr"></span>
+        </div>
+        <div class="footer">
+            <p>Tak for dit køb!</p>
+        </div>
+    </div>
+</body>
+</html>
