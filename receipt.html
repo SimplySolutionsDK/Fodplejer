@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Receipt</title>
+    <title>Kvittering</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -23,6 +23,7 @@
         }
         .header {
             text-align: center;
+            margin-bottom: 10px;
         }
         .title {
             font-size: 14px;
@@ -33,7 +34,7 @@
         }
         .detail-section {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             gap: 5px;
         }
         .detail-box {
@@ -41,6 +42,7 @@
             border: 1px solid #e1e1e1;
             padding: 5px;
             word-wrap: break-word;
+            flex: 1 1 48%;
         }
         .footer {
             text-align: center;
@@ -51,37 +53,44 @@
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
             return {
-                date: params.get('date') || 'No Date',
-                startTime: params.get('startTime') || 'No Start Time',
-                endTime: params.get('endTime') || 'No End Time',
-                customerNumber: params.get('customerNumber') || 'No Customer Number',
-                name: params.get('name') || 'No Name',
-                email: params.get('email') || 'No Email',
-                phone1: params.get('phone1') || 'No Phone 1',
-                phone3: params.get('phone3') || 'No Phone 3',
-                status: params.get('status') || 'No Status',
-                service: params.get('service') || 'No Service',
-                extraProducts: params.get('extraProducts') || 'No Extra Products',
-                price: params.get('price') || 'No Price'
+                date: params.get('date') || 'Ingen Dato',
+                customerNumber: params.get('customerNumber') || 'Ingen Kunde Nummer',
+                name: params.get('name') || 'Ingen Navn',
+                email: params.get('email') || 'Ingen Email',
+                phone1: params.get('phone1') || 'Ingen Telefon 1',
+                phone2: params.get('phone3') || 'Ingen Telefon 2',
+                status: params.get('status') || 'Ingen Status',
+                service: params.get('service') || 'Ingen Service',
+                extraProducts: params.get('extraProducts') || 'Ingen Ekstra Produkter',
+                price: params.get('price') || 'Ingen Pris'
             };
         }
 
         function populateReceipt() {
             const data = getQueryParams();
-            document.getElementById('datoogtid').textContent = data.date;
-            document.getElementById('startTime').textContent = data.startTime;
-            document.getElementById('endTime').textContent = data.endTime;
-            document.getElementById('customerNumber').textContent = data.customerNumber;
-            document.getElementById('name').textContent = data.name;
-            document.getElementById('email').textContent = data.email;
-            document.getElementById('phone1').textContent = data.phone1;
-            document.getElementById('phone3').textContent = data.phone3;
-            document.getElementById('status').textContent = data.status;
-            document.getElementById('service').textContent = data.service;
-            document.getElementById('extraProducts').textContent = data.extraProducts;
-            document.getElementById('price').textContent = data.price;
-            document.getElementById('regNr').textContent = '0828';
-            document.getElementById('kontoNr').textContent = '2447509';
+            const fields = [
+                { id: 'datoogtid', label: 'Dato og Tid', value: data.date },
+                { id: 'customerNumber', label: 'Kunde Nr', value: data.customerNumber },
+                { id: 'name', label: 'Navn', value: data.name },
+                { id: 'email', label: 'Email', value: data.email },
+                { id: 'phone1', label: 'Telefon 1', value: data.phone1 },
+                { id: 'phone2', label: 'Telefon 2', value: data.phone2 },
+                { id: 'status', label: 'Status', value: data.status },
+                { id: 'service', label: 'Service', value: data.service },
+                { id: 'extraProducts', label: 'Ekstra Produkter', value: data.extraProducts },
+                { id: 'price', label: 'Pris', value: data.price },
+                { id: 'regNr', label: 'Reg Nr', value: '0828' },
+                { id: 'kontoNr', label: 'Konto Nr', value: '2447509' }
+            ];
+
+            fields.forEach(field => {
+                if (!field.value.startsWith('Ingen')) {
+                    const detailBox = document.createElement('div');
+                    detailBox.className = 'detail-box';
+                    detailBox.innerHTML = `<strong>${field.label}:</strong> <span id="${field.id}">${field.value}</span>`;
+                    document.querySelector('.detail-section').appendChild(detailBox);
+                }
+            });
         }
 
         function printReceipt() {
@@ -97,53 +106,12 @@
 <body>
     <div class="receipt-container">
         <div class="header">
-    <div class="logo">
-      <img src="https://byens-fodplejer.dk/wp-content/uploads/2019/07/byens_fodplejer_logo.png" alt="Byens Fodplejer Logo">
-    </div>
+            <div class="logo">
+                <img src="https://byens-fodplejer.dk/wp-content/uploads/2019/07/byens_fodplejer_logo.png" alt="Byens Fodplejer Logo">
+            </div>
             <h1 class="title">Kvittering Byens Fodplejer</h1>
         </div>
-        <div class="detail-box">
-            <strong>Dato og Tid:</strong> <span id="datoogtid"></span>
-        </div>
-        <div class="detail-box">
-            <strong>Start Time:</strong> <span id="startTime"></span>
-        </div>
-        <div class="detail-box">
-            <strong>End Time:</strong> <span id="endTime"></span>
-        </div>
-        <div class="detail-box">
-            <strong>Kunde Nr:</strong> <span id="customerNumber"></span>
-        </div>
-        <div class="detail-box">
-            <strong>Name:</strong> <span id="name"></span>
-        </div>
-        <div class="detail-box">
-            <strong>Email:</strong> <span id="email"></span>
-        </div>
-        <div class="detail-box">
-            <strong>Phone 1:</strong> <span id="phone1"></span>
-        </div>
-        <div class="detail-box">
-            <strong>Phone 3:</strong> <span id="phone3"></span>
-        </div>
-        <div class="detail-box">
-            <strong>Status:</strong> <span id="status"></span>
-        </div>
-        <div class="detail-box">
-            <strong>Service:</strong> <span id="service"></span>
-        </div>
-        <div class="detail-box">
-            <strong>Extra Products:</strong> <span id="extraProducts"></span>
-        </div>
-        <div class="detail-box">
-            <strong>Price:</strong> <span id="price"></span>
-        </div>
-        <div class="detail-box">
-            <strong>Reg Nr:</strong> <span id="regNr">0828</span>
-        </div>
-        <div class="detail-box">
-            <strong>Konto Nr:</strong> <span id="kontoNr">2447509</span>
-        </div>
+        <div class="detail-section"></div>
         <div class="footer">
             <p>Tak for dit køb!</p>
         </div>
