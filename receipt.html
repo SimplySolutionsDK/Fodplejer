@@ -12,6 +12,7 @@
             width: 2in;
             padding: 10px;
             box-sizing: border-box;
+            font-size: 10px; /* Uniform font size */
         }
         .receipt-container {
             width: 100%;
@@ -26,7 +27,7 @@
             margin-bottom: 10px;
         }
         .title {
-            font-size: 14px;
+            font-size: 10px;
             font-weight: bold;
         }
         .logo img {
@@ -43,7 +44,7 @@
         }
         .footer {
             text-align: center;
-            font-size: 12px;
+            font-size: 10px;
             margin-top: 10px;
         }
         .reg-konto-container {
@@ -54,6 +55,11 @@
             padding: 5px;
             word-wrap: break-word;
             width: 48%;
+            font-size: 10px;
+        }
+        .mobilpay-box {
+            padding: 5px;
+            word-wrap: break-word;
             font-size: 10px;
         }
     </style>
@@ -112,6 +118,12 @@
             dueDateBox.className = 'detail-box';
             dueDateBox.innerHTML = `<strong>Betalingsfrist:</strong> <span id="dueDate">${getDueDate()}</span><br><strong>Betalingsreference:</strong> <span id="paymentRef">${data.name}</span>`;
             document.querySelector('.detail-section').appendChild(dueDateBox);
+
+            // Add Mobilpay option
+            const mobilpayBox = document.createElement('div');
+            mobilpayBox.className = 'mobilpay-box';
+            mobilpayBox.innerHTML = `<strong>Mobilpay:</strong> <span id="mobilpay">28947344</span>`;
+            document.querySelector('.detail-section').appendChild(mobilpayBox);
         }
 
         function printReceipt() {
