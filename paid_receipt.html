@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kvittering - Betalt</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 2in;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 10px; /* Uniform font size */
+        }
+        .receipt-container {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .title {
+            font-size: 10px;
+            font-weight: bold;
+        }
+        .logo img {
+            max-width: 80px;
+        }
+        .detail-section {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .detail-box {
+            padding: 5px;
+            word-wrap: break-word;
+        }
+        .footer {
+            text-align: center;
+            font-size: 10px;
+            margin-top: 10px;
+        }
+        .reg-konto-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .reg-konto-box {
+            padding: 5px;
+            word-wrap: break-word;
+            width: 48%;
+            font-size: 10px;
+        }
+        .mobilpay-box {
+            padding: 5px;
+            word-wrap: break-word;
+            font-size: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 5px;
+            border: 1px solid #ddd;
+            font-size: 10px;
+        }
+    </style>
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                customerNumber: params.get('customerNumber') || 'Ingen Kunde Nummer',
+                name: params.get('name') || 'Ingen Navn',
+                service: params.get('service') || 'Ingen Service',
+                extraProducts: params.get('extraProducts') || 'Ingen Ekstra Produkter',
+                price: params.get('price') || 'Ingen Pris'
+            };
+        }
+
+        function splitAndFormatService(service) {
+            return service.split(',').map(item => item.trim()).filter(item => item).map(item => `<tr><td>${item}</td></tr>`).join('');
+        }
+
+        function populateReceipt() {
+            const data = getQueryParams();
+            const fields = [
+                { id: 'customerNumber', label: 'Kunde Nr', value: data.customerNumber },
+                { id: 'name', label: 'AftaleNr', value: data.name },
+                { id: 'price', label: 'Pris', value: data.price }
+            ];
+
+            fields.forEach(field => {
+                if (!field.value.startsWith('Ingen')) {
+                    const detailBox = document.createElement('div');
+                    detailBox.className = 'detail-box';
+                    detailBox.innerHTML = `<strong>${field.label}:</strong> <span id="${field.id}">${field.value}</span>`;
+                    document.querySelector('.detail-section').appendChild(detailBox);
+                }
+            });
+
+            // Add service and extra products in table format
+            if (data.service && !data.service.startsWith('Ingen')) {
+                const serviceTable = document.createElement('table');
+                serviceTable.innerHTML = `<strong>Service:</strong><br>${splitAndFormatService(data.service)}`;
+                document.querySelector('.detail-section').appendChild(serviceTable);
+            }
+
+            if (data.extraProducts && !data.extraProducts.startsWith('Ingen')) {
+                const extraProductsTable = document.createElement('table');
+                extraProductsTable.innerHTML = `<strong>Ekstra Produkter:</strong><br>${splitAndFormatService(data.extraProducts)}`;
+                document.querySelector('.detail-section').appendChild(extraProductsTable);
+            }
+
+            // Add Reg Nr and Konto Nr side by side
+            const regKontoContainer = document.createElement('div');
+            regKontoContainer.className = 'reg-konto-container';
+            regKontoContainer.innerHTML = `
+                <div class="reg-konto-box"><strong>Reg Nr:</strong><br><span id="regNr">0828</span></div>
+                <div class="reg-konto-box"><strong>Konto Nr:</strong><br><span id="kontoNr">2447509</span></div>
+            `;
+            document.querySelector('.detail-section').appendChild(regKontoContainer);
+
+            // Add Mobilpay option below Reg Nr and Konto Nr
+            const mobilpayBox = document.createElement('div');
+            mobilpayBox.className = 'mobilpay-box';
+            mobilpayBox.innerHTML = `<strong>Mobilpay:</strong> <span id="mobilpay">28947344</span>`;
+            document.querySelector('.detail-section').appendChild(mobilpayBox);
+
+            // Add paid status
+            const paidStatusBox = document.createElement('div');
+            paidStatusBox.className = 'detail-box';
+            paidStatusBox.innerHTML = `<strong>Status:</strong> <span id="status">Betalt</span>`;
+            document.querySelector('.detail-section').appendChild(paidStatusBox);
+        }
+
+        function printReceipt() {
+            window.print();
+        }
+
+        window.onload = function() {
+            populateReceipt();
+            printReceipt();
+        };
+    </script>
+</head>
+<body>
+    <div class="receipt-container">
+        <div class="header">
+            <div class="logo">
+                <img src="https://byens-fodplejer.dk/wp-content/uploads/2019/07/byens_fodplejer_logo.png" alt="Byens Fodplejer Logo">
+            </div>
+            <h1 class="title">Kvittering - Betalt</h1>
+        </div>
+        <div class="detail-section"></div>
+        <div class="footer">
+            <p>Tak for dit køb!</p>
+        </div>
+    </div>
+</body>
+</html>
