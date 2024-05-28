@@ -112,18 +112,18 @@
                 <div class="reg-konto-box"><strong>Konto Nr:</strong> <span id="kontoNr">2447509</span></div>
             `;
             document.querySelector('.detail-section').appendChild(regKontoContainer);
-
+            // Add Mobilpay option
+            const mobilpayBox = document.createElement('div');
+            mobilpayBox.className = 'mobilpay-box';
+            mobilpayBox.innerHTML = `<strong>Mobilpay:</strong> <span id="mobilpay">28947344</span>`;
+            document.querySelector('.detail-section').appendChild(mobilpayBox);
             // Add due date and payment reference
             const dueDateBox = document.createElement('div');
             dueDateBox.className = 'detail-box';
             dueDateBox.innerHTML = `<strong>Betalingsfrist:</strong> <span id="dueDate">${getDueDate()}</span><br><strong>Betalingsreference:</strong> <span id="paymentRef">${data.name}</span>`;
             document.querySelector('.detail-section').appendChild(dueDateBox);
 
-            // Add Mobilpay option
-            const mobilpayBox = document.createElement('div');
-            mobilpayBox.className = 'mobilpay-box';
-            mobilpayBox.innerHTML = `<strong>Mobilpay:</strong> <span id="mobilpay">28947344</span>`;
-            document.querySelector('.detail-section').appendChild(mobilpayBox);
+
         }
 
         function printReceipt() {
