@@ -38,25 +38,23 @@
             gap: 5px;
         }
         .detail-box {
-            background-color: #f2f2f2;
-            border: 1px solid #e1e1e1;
             padding: 5px;
             word-wrap: break-word;
         }
         .footer {
             text-align: center;
             font-size: 12px;
+            margin-top: 10px;
         }
         .reg-konto-container {
             display: flex;
             justify-content: space-between;
         }
         .reg-konto-box {
-            background-color: #f2f2f2;
-            border: 1px solid #e1e1e1;
             padding: 5px;
             word-wrap: break-word;
             width: 48%;
+            font-size: 10px;
         }
     </style>
     <script>
@@ -73,6 +71,12 @@
 
         function splitAndFormatService(service) {
             return service.split(',').map(item => item.trim()).filter(item => item).join('<br>');
+        }
+
+        function getDueDate() {
+            const currentDate = new Date();
+            currentDate.setDate(currentDate.getDate() + 8);
+            return currentDate.toISOString().split('T')[0];
         }
 
         function populateReceipt() {
@@ -102,6 +106,12 @@
                 <div class="reg-konto-box"><strong>Konto Nr:</strong> <span id="kontoNr">2447509</span></div>
             `;
             document.querySelector('.detail-section').appendChild(regKontoContainer);
+
+            // Add due date and payment reference
+            const dueDateBox = document.createElement('div');
+            dueDateBox.className = 'detail-box';
+            dueDateBox.innerHTML = `<strong>Betalingsfrist:</strong> <span id="dueDate">${getDueDate()}</span><br><strong>Betalingsreference:</strong> <span id="paymentRef">${data.name}</span>`;
+            document.querySelector('.detail-section').appendChild(dueDateBox);
         }
 
         function printReceipt() {
