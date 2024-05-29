@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Husk din aftale</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 2in;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 10px; /* Uniform font size */
+        }
+        .note-container {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .title {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .logo img {
+            max-width: 80px;
+        }
+        .detail-section {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .detail-box {
+            padding: 5px;
+            word-wrap: break-word;
+        }
+        .footer {
+            text-align: center;
+            font-size: 10px;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                customerName: params.get('customerName') || 'Ingen Navn',
+                customerNumber: params.get('customerNumber') || 'Ingen Kunde Nummer',
+                appointmentNumber: params.get('appointmentNumber') || 'Ingen Aftale Nummer',
+                appointmentDate: params.get('appointmentDate') || 'Ingen Dato',
+                appointmentTime: params.get('appointmentTime') || 'Ingen Tid',
+                services: params.get('services') || 'Ingen Service'
+            };
+        }
+
+        function splitAndFormatServices(services) {
+            return services.split(',').map(item => item.trim()).filter(item => item).map(item => `<div>${item}</div>`).join('');
+        }
+
+        function populateNote() {
+            const data = getQueryParams();
+            const fields = [
+                { id: 'customerName', label: 'Kære', value: data.customerName },
+                { id: 'customerNumber', label: 'Kunde Nr', value: data.customerNumber },
+                { id: 'appointmentNumber', label: 'Aftale Nr', value: data.appointmentNumber },
+                { id: 'appointmentDate', label: 'Dato', value: data.appointmentDate },
+                { id: 'appointmentTime', label: 'Tid', value: data.appointmentTime },
+            ];
+
+            fields.forEach(field => {
+                if (!field.value.startsWith('Ingen')) {
+                    const detailBox = document.createElement('div');
+                    detailBox.className = 'detail-box';
+                    detailBox.innerHTML = `<strong>${field.label}:</strong> <span id="${field.id}">${field.value}</span>`;
+                    document.querySelector('.detail-section').appendChild(detailBox);
+                }
+            });
+
+            // Add services in a formatted list
+            if (data.services && !data.services.startsWith('Ingen')) {
+                const servicesBox = document.createElement('div');
+                servicesBox.className = 'detail-box';
+                servicesBox.innerHTML = `<strong>Services:</strong><br>${splitAndFormatServices(data.services)}`;
+                document.querySelector('.detail-section').appendChild(servicesBox);
+            }
+        }
+
+        function printNote() {
+            window.print();
+        }
+
+        window.onload = function() {
+            populateNote();
+            printNote();
+        };
+    </script>
+</head>
+<body>
+    <div class="note-container">
+        <div class="header">
+            <div class="logo">
+                <img src="https://byens-fodplejer.dk/wp-content/uploads/2019/07/byens_fodplejer_logo.png" alt="Byens Fodplejer Logo">
+            </div>
+            <h1 class="title">Husk din aftale</h1>
+        </div>
+        <div class="detail-section"></div>
+        <div class="footer">
+            <p>Vi ser frem til at se dig!</p>
+        </div>
+    </div>
+</body>
+</html>
