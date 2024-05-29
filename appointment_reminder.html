@@ -57,7 +57,8 @@
                 appointmentNumber: params.get('appointmentNumber') || 'Ingen Aftale Nummer',
                 appointmentDate: params.get('appointmentDate') || 'Ingen Dato',
                 appointmentTime: params.get('appointmentTime') || 'Ingen Tid',
-                services: params.get('services') || 'Ingen Service'
+                services: params.get('services') || 'Ingen Service',
+                name: params.get('name') || 'Ingen Navn'
             };
         }
 
@@ -68,11 +69,12 @@
         function populateNote() {
             const data = getQueryParams();
             const fields = [
-                { id: 'customerName', label: 'Kære', value: data.customerName },
+                { id: 'customerName', label: 'Kære', value: data.name },
                 { id: 'customerNumber', label: 'Kunde Nr', value: data.customerNumber },
                 { id: 'appointmentNumber', label: 'Aftale Nr', value: data.appointmentNumber },
                 { id: 'appointmentDate', label: 'Dato', value: data.appointmentDate },
                 { id: 'appointmentTime', label: 'Tid', value: data.appointmentTime },
+               
             ];
 
             fields.forEach(field => {
